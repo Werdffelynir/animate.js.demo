@@ -6,7 +6,6 @@ out
 gen
 node_modules/
 package-lock.json
-demo
 .rm
 /*/.rm
 /*/*/.rm
