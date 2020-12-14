@@ -1,0 +1,71 @@
+
+*{margin: 0; padding: 0}
+html, body {margin: 0; padding: 0; width: 100%; height: 100%;}
+
+body, #app {
+    width: 100%;
+    height: 100%;
+    background: #0c0c0c;
+    color: #46b900;
+    font-size: 10px;
+    font-family: "Consolas", "DejaVu Sans Mono", "sans-serif", "sans", "Ubuntu Condensed", "Ubuntu";
+}
+#main {}
+#main pre {}
+#main pre span {
+    font-weight: bold;
+}
+
+/* qu */
+.qu {}
+.qu_box {
+    border: 2px solid #6a6a6a;
+    padding: 2px;
+}
+.qu_id {
+    width: 200px;
+    padding: 2px;
+    text-align: right;
+    color: #00a8bf;
+}
+.qu_description {
+    padding: 5px;
+    color: #e3e3e3;
+}
+.qu_variants {}
+.qu_variant {}
+.qu_variant_goto {
+    width: 220px;
+    padding: 2px;
+    text-align: right;
+    color: #00a8bf;
+}
+.qu_variant_text {
+    padding: 5px;
+}
+.qu_btn {
+    display: inline-block;
+    border: 1px solid #6a6a6a;
+    padding: 5px;
+    text-align: center;
+}
+.qu_edit{}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

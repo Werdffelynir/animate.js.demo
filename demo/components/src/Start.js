@@ -1,10 +1,9 @@
 
 const Start = function () {
     console.log("Components demo");
-    if (! window.Animate ) {
+    if (! window.Animate || ! window.Animate.Static ) {
         return new Error('Animate object not exist!');
     }
-
     const {
         query,
         queryAll,

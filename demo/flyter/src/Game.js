@@ -34,19 +34,17 @@ const Game = function () {
     const appNode = query('#app');
     const pointNode = query('#point');
 
-    const ms = MoveClip({
-        element: pointNode,
-        x: random(100, 260),
-        y: 0,
-        speed: 0.3,
-    });
+    const AppClip = Clip(appNode);
 
     const createRoadMC = function(){
         const element = document.createElement('div');
         each(30, () => {
             element.appendChild(createElement('div', {class: 'mc-road'}));
         });
-        element.className = 'mc ';
+        element.className = 'mc';
+        element.appendChild(createElement('div', {class: 'mc mc-line-left'}));
+        element.appendChild(createElement('div', {class: 'mc mc-line-right'}));
+
         const mc = MoveClip({
             element: element,
             x: 200,
@@ -56,14 +54,36 @@ const Game = function () {
         appNode.appendChild(element);
         return mc;
     };
-    const createCarMC = function(){};
+
+    const createCarMC = function(){
+        const element = createElement('div', {class: 'mc mc-car'});
+        appNode.appendChild(element);
+        const root = MoveClip({
+            element: element,
+            x: random(100, 260),
+            y: 0,
+            speed: 0.3,
+            animation (i){
+                this.y += RoadMC.speed + this.speed;
+                if (this.y > AppClip.height ) {
+                    this.y = -60;
+                    this.x = random(100, 260);
+                }
+            },
+        });
+        //
+        console.log();
+        return root;
+    };
+    const Car1 = createCarMC();
+
     const createPlayerMC = function(){
         const element = document.createElement('div');
         element.className = 'mc mc-player';
         const mc = MoveClip({
             element: element,
             x: 220,
-            y: 500,
+            y: AppClip.height - 60,
             speed: 1,
             speedX: 1,
         });
@@ -71,8 +91,8 @@ const Game = function () {
         return mc;
     };
 
-    const roadMC = createRoadMC();
-    const playerMC = createPlayerMC();
+    const RoadMC = createRoadMC();
+    const PlayerMC = createPlayerMC();
 
     const keyboard = KeyboardEventManager();
     keyboard.left = false;
@@ -93,28 +113,24 @@ const Game = function () {
     })
 
     AnimationFrame().start((iter) => {
-        ms.y += roadMC.speed + ms.speed;
-        if (ms.y > window.innerHeight - ms.height) {
-            ms.y = -50;
-            ms.x = random(100, 260);
-        }
+        Car1.animation(0);
 
         if (keyboard.left ) {
-            playerMC.x -= playerMC.speedX;
+            PlayerMC.x -= PlayerMC.speedX;
         }
         if (keyboard.right ) {
-            playerMC.x += playerMC.speedX;
+            PlayerMC.x += PlayerMC.speedX;
         }
         if (keyboard.up ) {
-            roadMC.speed += 0.1;
+            RoadMC.speed += 0.1;
         }
         if (keyboard.down ) {
-            roadMC.speed -= 0.1;
+            RoadMC.speed -= 0.1;
         }
 
-        roadMC.y += roadMC.speed;
-        if (roadMC.y > 0) {
-            roadMC.y = -500;
+        RoadMC.y += RoadMC.speed;
+        if (RoadMC.y > 0) {
+            RoadMC.y = -500;
         }
     });
 };

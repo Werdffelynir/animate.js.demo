@@ -12,14 +12,6 @@ body > * {
     height: 100%;
 }
 
-#point {
-    position: absolute;
-    width: 40px;
-    height: 50px;
-    border: 2px solid #46b900;
-    background: #4b4b4b;
-}
-
 .mc {
     position: absolute;
 }
@@ -29,6 +21,26 @@ body > * {
     border: 2px solid #46b900;
     background: #4b4b4b;
     margin-bottom: 25px;
+}
+.mc-line-left {
+    top: 0;
+    width: 5px;
+    height: 100%;
+    border: 2px solid #389200;
+    margin-left: -150px;
+}
+.mc-line-right {
+    top: 0;
+    width: 5px;
+    height: 100%;
+    border: 2px solid #0701ce;
+    margin-left: 150px;
+}
+.mc-car {
+    width: 40px;
+    height: 50px;
+    border: 2px solid #46b900;
+    background: #4b4b4b;
 }
 .mc-player {
     width: 40px;

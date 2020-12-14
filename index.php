@@ -22,7 +22,7 @@ Util::writeLog($file,
     <link rel="stylesheet" href="/assets/grid.css">
     <link rel="stylesheet" href="/assets/main.css">
 
-    <script src="assets/na.bundle.js" data-config=""></script>
+<!--    <script src="assets/na.bundle.js" data-config=""></script>-->
     <script src="http://localhost:8101/animate.bundle.js" data-config=""></script>
 
     <style rel="stylesheet">

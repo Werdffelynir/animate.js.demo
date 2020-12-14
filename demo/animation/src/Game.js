@@ -1,7 +1,7 @@
 
 const Game = function () {
     console.log('Animation demo');
-    if (! window.Animate ) {
+    if (! window.Animate || ! window.Animate.Static ) {
         return new Error('Animate object not exist!');
     }
     const {
@@ -31,71 +31,10 @@ const Game = function () {
     } = window.Animate.Static;
 
     const appNode = query('#app');
-    const fpsNode = query('.fps');
-    const heroNode = query('.hero');
+    const fpsNode = query('#fps');
+    const ballsNode = query('#balls');
+    const targetNode = query('.target');
 
-    class AnimationClass {
-        constructor(){
-            this.requestId = 0;
-            this.startpaly = 0;
-            this.paused = false;
-            this.callback = 0;
-            this.delay = 0;
-            this.duration = 0;
-            this.progress = 0;
-        }
-    }
-
-/*    const Animation = function () {
-        // this.constructor = function Animation() {};
-        const root = {
-            requestId: 0,
-            startpaly: 0,
-            paused: false,
-            callback: 0,
-            delay: 0,
-            duration: 0,
-            progress: 0,
-        };
-
-        root.step = function (timestamp) {
-            if (!root.startpaly) root.startpaly = timestamp;
-            root.progress = timestamp - root.startpaly;
-
-            if (root.callback) {
-                root.callback.call(root, root.progress);
-            }
-
-            if (root.duration && root.duration > root.progress) {
-                root.cancel();
-            }
-
-            window.requestAnimationFrame(root.step);
-            if (root.paused) {
-                window.requestAnimationFrame(root.step);
-            }
-        }
-
-        root.pause = function () {
-            root.paused = !root.paused;
-        };
-
-        root.start = function (callback) {
-            if (callback) {
-                root.callback = callback;
-            }
-            return root.requestId = window.requestAnimationFrame(root.step);
-        };
-
-        root.cancel = function () {
-            window.cancelAnimationFrame(root.requestId);
-        };
-
-        return root;
-    };*/
-
-
-    // heroNode.style.display = 'none';
     const createBall = function (id = 'id') {
         const ball = document.createElement('div');
         const size = random(8, 60);
@@ -103,9 +42,6 @@ const Game = function () {
 
         ball.className = 'ball';
         ball.style.display = 'block';
-        ball.style.lineHeight = size + 'px';
-        ball.style.textAlign = 'center';
-        ball.innerHTML = '<span>'+id+'</span>';
         ball.style.backgroundColor = randomColor();
         ball.style.opacity = Math.random().toString();
 
@@ -118,21 +54,11 @@ const Game = function () {
             width: size,
             height: size,
             element: ball,
+            remove(){
+                this.element.parentNode.removeChild(this.element);
+            },
         });
     }
-/*    function pushBall(elem) {
-        const animation = Animation();
-        animation.start(() => {
-            elem.x += elem.speedX;
-            elem.y += elem.speedY;
-            if (elem.x < 0) elem.speedX *= -1;
-            if (elem.x > window.innerWidth - elem.width) elem.speedX *= -1;
-            if (elem.y < 0) elem.speedY *= -1;
-            if (elem.y > window.innerHeight - elem.height) elem.speedY *= -1;
-        });
-    }
-
-    pushBall(ball);*/
 
     function ballAction (ms) {
         if (ms) {
@@ -145,77 +71,70 @@ const Game = function () {
         }
     }
 
+    const balls = new Array(100).fill(0);
 
-
-    const balls = new Array(500).fill(0);
     balls.forEach((v, i) => {
-        balls[i] = createBall(i);
+        balls[i] = createBall(i + 1);
     })
+
+    const mcClick = MoveClip({
+        x: -100,
+        y: -100,
+        width: 5,
+        height: 5,
+        element: targetNode,
+        timer: null,
+        hide(){this.element.style.display = 'none'},
+        show(){
+            clearTimeout(this.timer);
+            this.element.style.display = 'block';
+            this.timer = setTimeout(() => {this.hide()}, 1000);
+        },
+        remove(){this.element.parentNode.removeChild(this.element)},
+    });
+
+    on(appNode, 'click', (e) => {
+        mcClick.x = e.clientX;
+        mcClick.y = e.clientY;
+        mcClick.show();
+        if (e.target.className === 'ball') {
+            let index = false;
+            let mcs = balls.filter((v, i)=>{
+                if (v.element === e.target) {
+                    index = i;
+                    return true;
+                }
+            });
+            if (mcs && mcs[0] && mcs[0].element && index !== false) {
+                mcs[0].remove();
+                delete balls[index];
+            }
+        }
+    });
+
     AnimationFrame().start((progress) => {
-        //if (Math.round(progress) % 1000 === 0) console.log(progress)
-        if (Math.round(progress) % 1000 === 0) { }
+        if (Math.round(progress) % 1000 === 0) {}
 
         each(balls, (ball) => {
             ballAction(ball);
         });
-
     });
 
-    // Object.keys(Array(333).fill(0)).forEach((i) => {
-    //     createBallAnimation(i);
-    // });
-    function createBallAnimation(id){
-        let lastCalledTime = Date.now();
-        let fpsValue = 0;
-            // playBall(ball);
-
-            // if (progress % 1000 === 0) console.log(id)
-            //
-            // const delta = (Date.now() - lastCalledTime) / 1000;
-            // lastCalledTime = Date.now();
-            // fpsValue = 1 / delta;
-            // fps.textContent = Math.round(fpsValue);
-            // if (progress % 100 === 0) {}
-    }
-
-/*
-    const ball2 = createBall();
-    Animation().start((progress) => {
-        playBall(ball2);
-        if (progress % 1000 === 0) console.log('id 2')
-    });
-
-    const ball3 = createBall();
-    Animation().start((progress) => {
-        playBall(ball3);
-        if (progress % 1000 === 0) console.log('id 3')
-    });
-
-    const ball4 = createBall();
-    Animation().start((progress) => {
-        playBall(ball4);
-        if (progress % 1000 === 0) console.log('id 4')
-    });*/
-
-    // const ball2 = ball.clone();
-    // console.log(ball2)
-    // pushBall(ball2);
-    // scene.appendChild(ball2.element)
-    // ball2.x = 250;
-    // ball2.y = 150;
-    //
-    //
-    // const b3 = ball.clone();
-    // b3.x = 250;
-    // b3.y = 100;
-    // pushBall(b3);
-    //
-    // const b2 = ball.clone();
-    // b2.x = 125;
-    // b2.y = 25;
-    // console.log(b2)
-    // pushBall(b2);
-    //
+    /*
+        const is = function (...args) {
+            if (args.length === 1) {
+                return !!args[0]
+            }
+            if (args.length === 2) {
+                const typeValue = typeOf(args[1]);
+                const typeWith = typeOf(args[1]);
+                if (typeValue !== 'string' && typeWith === 'string') {
+                    return typeOf(args[0], args[1]);
+                }
+                return args[0] === args[1];
+            }
+        }
+    */
 
 };
 

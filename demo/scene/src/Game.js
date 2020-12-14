@@ -7,7 +7,7 @@
 
 const Game = function () {
     console.log('scene demo')
-    if (!(window.Animate) || !(window.Animate.Static)) {
+    if (! window.Animate || ! window.Animate.Static ) {
         return new Error('Animate object not exist!');
     }
 
