@@ -4,6 +4,7 @@ const Start = function () {
     if (! window.Animate || ! window.Animate.Static ) {
         return new Error('Animate object not exist!');
     }
+
     const {
         query,
         queryAll,
@@ -26,7 +27,6 @@ const Start = function () {
         RoxyListener,
         Roxy,
     } = window.Animate;
-
 
     const templateMenu = `
     <div class="menu">

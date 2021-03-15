@@ -9,4 +9,6 @@ package-lock.json
 .rm
 /*/.rm
 /*/*/.rm
+/*/*/*/.rm
 tests
+clone_animate.sh

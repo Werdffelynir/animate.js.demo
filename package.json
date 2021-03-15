@@ -1,5 +1,5 @@
 {
-  "name": "animate.js",
+  "name": "animate.js.demo",
   "version": "0.0.3",
   "description": "Script for animations constructor applications",
   "main": "index.js",
@@ -31,5 +31,10 @@
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10"
   },
-  "dependencies": {}
+  "dependencies": {
+    "animate.js": "github:Werdffelynir/animate.js#master"
+  },
+  "optionalDependencies": {
+    "fsevents": "^2.2.1"
+  }
 }
